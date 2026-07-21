@@ -2,8 +2,10 @@ const fs = require('fs')
 const filepath = "./tasks.json"
 
 const command = process.argv[2]
-const arguement = process.argv[3]
+const argument = process.argv[3]
 
+
+//Reading the file
 const loadTasks = () =>{ //basically, here we are reading the file and loading the contants.
     try {
         const  dataBuffer = fs.readFileSync(filepath) //Reads the file tasks.json synchronously. Returns a Buffer (binary data). It's an object and you have to convert it to string 
@@ -15,14 +17,14 @@ return[]
     }
 }
 
-const listTasks = ()=>{
-    const tasks = loadTasks()
-    tasks.forEach((task, index)=>console.log(`${index+1}- ${task.task}`))
-}
-
 const saveTasks = (tasks) => {
     dataJSON = JSON.stringify(tasks) //it's just a string
     fs.writeFileSync(filepath, dataJSON)
+}
+
+const listTasks = ()=>{
+    const tasks = loadTasks()
+    tasks.forEach((task, index)=>console.log(`${index+1}- ${task.task}`))
 }
 
 const addTask = (task) => { //here we are writing to the file by calling saved tasks.
@@ -30,6 +32,7 @@ const addTask = (task) => { //here we are writing to the file by calling saved t
     tasks.push({task})
     saveTasks(tasks)
     console.log("Task added.")
+    listTasks();
 } 
 
 const removeTask = (id)=>{
@@ -45,13 +48,13 @@ const removeTask = (id)=>{
 }
 
 if (command === "add"){
-    addTask(arguement)
+    addTask(argument)
 }
 else if (command === "list"){
     listTasks()
 }
 else if (command === "remove"){
-    removeTask(arguement)
+    removeTask(argument)
 }
 else {
     console.log("Command not found!")
